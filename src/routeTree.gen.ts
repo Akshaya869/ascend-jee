@@ -16,9 +16,10 @@ import { Route as MfaRouteImport } from './routes/mfa'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthedIndexRouteImport } from './routes/_authed/index'
+import { Route as AuthedAdvancedRouteImport } from './routes/_authed/advanced'
+import { Route as AuthedAssistantRouteImport } from './routes/_authed/assistant'
 import { Route as AuthedBoardsRouteImport } from './routes/_authed/boards'
 import { Route as AuthedForecastRouteImport } from './routes/_authed/forecast'
-import { Route as AuthedGuidanceRouteImport } from './routes/_authed/guidance'
 import { Route as AuthedPlannerRouteImport } from './routes/_authed/planner'
 import { Route as AuthedPomodoroRouteImport } from './routes/_authed/pomodoro'
 import { Route as AuthedSettingsRouteImport } from './routes/_authed/settings'
@@ -59,6 +60,16 @@ const AuthedIndexRoute = AuthedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthedRoute,
 } as any)
+const AuthedAdvancedRoute = AuthedAdvancedRouteImport.update({
+  id: '/advanced',
+  path: '/advanced',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedAssistantRoute = AuthedAssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
+  getParentRoute: () => AuthedRoute,
+} as any)
 const AuthedBoardsRoute = AuthedBoardsRouteImport.update({
   id: '/boards',
   path: '/boards',
@@ -67,11 +78,6 @@ const AuthedBoardsRoute = AuthedBoardsRouteImport.update({
 const AuthedForecastRoute = AuthedForecastRouteImport.update({
   id: '/forecast',
   path: '/forecast',
-  getParentRoute: () => AuthedRoute,
-} as any)
-const AuthedGuidanceRoute = AuthedGuidanceRouteImport.update({
-  id: '/guidance',
-  path: '/guidance',
   getParentRoute: () => AuthedRoute,
 } as any)
 const AuthedPlannerRoute = AuthedPlannerRouteImport.update({
@@ -107,9 +113,10 @@ export interface FileRoutesByFullPath {
   '/mfa': typeof MfaRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/advanced': typeof AuthedAdvancedRoute
+  '/assistant': typeof AuthedAssistantRoute
   '/boards': typeof AuthedBoardsRoute
   '/forecast': typeof AuthedForecastRoute
-  '/guidance': typeof AuthedGuidanceRoute
   '/planner': typeof AuthedPlannerRoute
   '/pomodoro': typeof AuthedPomodoroRoute
   '/settings': typeof AuthedSettingsRoute
@@ -122,9 +129,10 @@ export interface FileRoutesByTo {
   '/mfa': typeof MfaRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/advanced': typeof AuthedAdvancedRoute
+  '/assistant': typeof AuthedAssistantRoute
   '/boards': typeof AuthedBoardsRoute
   '/forecast': typeof AuthedForecastRoute
-  '/guidance': typeof AuthedGuidanceRoute
   '/planner': typeof AuthedPlannerRoute
   '/pomodoro': typeof AuthedPomodoroRoute
   '/settings': typeof AuthedSettingsRoute
@@ -140,9 +148,10 @@ export interface FileRoutesById {
   '/mfa': typeof MfaRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/_authed/advanced': typeof AuthedAdvancedRoute
+  '/_authed/assistant': typeof AuthedAssistantRoute
   '/_authed/boards': typeof AuthedBoardsRoute
   '/_authed/forecast': typeof AuthedForecastRoute
-  '/_authed/guidance': typeof AuthedGuidanceRoute
   '/_authed/planner': typeof AuthedPlannerRoute
   '/_authed/pomodoro': typeof AuthedPomodoroRoute
   '/_authed/settings': typeof AuthedSettingsRoute
@@ -159,9 +168,10 @@ export interface FileRouteTypes {
     | '/mfa'
     | '/register'
     | '/reset-password'
+    | '/advanced'
+    | '/assistant'
     | '/boards'
     | '/forecast'
-    | '/guidance'
     | '/planner'
     | '/pomodoro'
     | '/settings'
@@ -174,9 +184,10 @@ export interface FileRouteTypes {
     | '/mfa'
     | '/register'
     | '/reset-password'
+    | '/advanced'
+    | '/assistant'
     | '/boards'
     | '/forecast'
-    | '/guidance'
     | '/planner'
     | '/pomodoro'
     | '/settings'
@@ -191,9 +202,10 @@ export interface FileRouteTypes {
     | '/mfa'
     | '/register'
     | '/reset-password'
+    | '/_authed/advanced'
+    | '/_authed/assistant'
     | '/_authed/boards'
     | '/_authed/forecast'
-    | '/_authed/guidance'
     | '/_authed/planner'
     | '/_authed/pomodoro'
     | '/_authed/settings'
@@ -262,6 +274,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedIndexRouteImport
       parentRoute: typeof AuthedRoute
     }
+    '/_authed/advanced': {
+      id: '/_authed/advanced'
+      path: '/advanced'
+      fullPath: '/advanced'
+      preLoaderRoute: typeof AuthedAdvancedRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/assistant': {
+      id: '/_authed/assistant'
+      path: '/assistant'
+      fullPath: '/assistant'
+      preLoaderRoute: typeof AuthedAssistantRouteImport
+      parentRoute: typeof AuthedRoute
+    }
     '/_authed/boards': {
       id: '/_authed/boards'
       path: '/boards'
@@ -274,13 +300,6 @@ declare module '@tanstack/react-router' {
       path: '/forecast'
       fullPath: '/forecast'
       preLoaderRoute: typeof AuthedForecastRouteImport
-      parentRoute: typeof AuthedRoute
-    }
-    '/_authed/guidance': {
-      id: '/_authed/guidance'
-      path: '/guidance'
-      fullPath: '/guidance'
-      preLoaderRoute: typeof AuthedGuidanceRouteImport
       parentRoute: typeof AuthedRoute
     }
     '/_authed/planner': {
@@ -322,9 +341,10 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthedRouteChildren {
+  AuthedAdvancedRoute: typeof AuthedAdvancedRoute
+  AuthedAssistantRoute: typeof AuthedAssistantRoute
   AuthedBoardsRoute: typeof AuthedBoardsRoute
   AuthedForecastRoute: typeof AuthedForecastRoute
-  AuthedGuidanceRoute: typeof AuthedGuidanceRoute
   AuthedPlannerRoute: typeof AuthedPlannerRoute
   AuthedPomodoroRoute: typeof AuthedPomodoroRoute
   AuthedSettingsRoute: typeof AuthedSettingsRoute
@@ -334,9 +354,10 @@ interface AuthedRouteChildren {
 }
 
 const AuthedRouteChildren: AuthedRouteChildren = {
+  AuthedAdvancedRoute: AuthedAdvancedRoute,
+  AuthedAssistantRoute: AuthedAssistantRoute,
   AuthedBoardsRoute: AuthedBoardsRoute,
   AuthedForecastRoute: AuthedForecastRoute,
-  AuthedGuidanceRoute: AuthedGuidanceRoute,
   AuthedPlannerRoute: AuthedPlannerRoute,
   AuthedPomodoroRoute: AuthedPomodoroRoute,
   AuthedSettingsRoute: AuthedSettingsRoute,

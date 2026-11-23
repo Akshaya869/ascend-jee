@@ -16,6 +16,9 @@ export const Route = createFileRoute("/_authed/planner")({
   head: () => ({ meta: [{ title: "Planner · Ascend" }] }),
 });
 
+const DAILY_CAP_MINUTES = 720;
+const PER_SUBJECT_CAP = 3;
+
 function Planner() {
   const today = toISO();
   const [date, setDate] = useState(today);
@@ -23,6 +26,7 @@ function Planner() {
   const { chapters } = useSyllabus();
   const { items: tasks, reload } = useEntityList("Task", { date }, "created_date", 100);
   const { items: sessions } = useEntityList("StudySession", { date }, "-created_date", 100);
+  const { items: boards } = useEntityList("BoardTopic", {}, "order_index", 500);
   const { items: weekTasks, reload: reloadWeek } = useEntityList(
     "Task",
     { date: { $gte: addDays(today, -6) } },
@@ -61,54 +65,71 @@ function Planner() {
   };
 
   const suggestDay = async () => {
-    if (!chapters) {
+    if (!chapters && !boards) {
       toast("Still loading your syllabus — try again in a second.");
       return;
     }
-    const SUBJECT_CAP = 2;
     const used = new Set(list.map((t) => t.chapter_name).filter(Boolean));
     const perSubject = {};
     for (const task of list) {
       if (task.subject) perSubject[task.subject] = (perSubject[task.subject] || 0) + 1;
     }
 
-    const queues = SUBJECTS.map((subject) => ({
-      key: subject.key,
-      picks: (chapters || [])
-        .filter((c) => c.subject === subject.key && c.status !== "Mastered" && !used.has(c.name))
-        .sort((a, b) => (WEIGHT_HOURS[b.weightage] || 4) - (WEIGHT_HOURS[a.weightage] || 4))
-        .slice(0, Math.max(0, SUBJECT_CAP - (perSubject[subject.key] || 0))),
-    }));
-
-    // Round-robin so every subject gets its first block before any gets a second
-    const picks = [];
-    for (let round = 0; round < SUBJECT_CAP; round += 1) {
-      for (const queue of queues) {
-        if (queue.picks[round]) picks.push(queue.picks[round]);
+    const roundRobin = (pool) => {
+      const groups = SUBJECTS.map((subject) => pool.filter((c) => c.subject === subject.key));
+      const out = [];
+      for (let i = 0; i < PER_SUBJECT_CAP; i += 1) {
+        for (const group of groups) if (group[i]) out.push(group[i]);
       }
+      return out;
+    };
+
+    const jeeSubjects = new Set(SUBJECTS.map((s) => s.key));
+    const boardPool = (boards || [])
+      .filter((t) => jeeSubjects.has(t.subject) && t.status !== "Mastered" && !used.has(t.name))
+      .sort((a, b) => (WEIGHT_HOURS[b.weightage] || 0) - (WEIGHT_HOURS[a.weightage] || 0));
+    const jeePool = (chapters || [])
+      .filter((c) => c.status !== "Mastered" && !used.has(c.name))
+      .sort((a, b) => (WEIGHT_HOURS[b.weightage] || 0) - (WEIGHT_HOURS[a.weightage] || 0));
+
+    // Class 12 board chapters first, then JEE chapters
+    const candidates = [
+      ...roundRobin(boardPool).map((topic) => ({ ...topic, board: true })),
+      ...roundRobin(jeePool).map((chapter) => ({ ...chapter, board: false })),
+    ];
+
+    const picks = [];
+    const taken = new Set();
+    for (const candidate of candidates) {
+      if (picks.length >= PER_SUBJECT_CAP * SUBJECTS.length) break;
+      if (taken.has(candidate.name)) continue;
+      if ((perSubject[candidate.subject] || 0) >= PER_SUBJECT_CAP) continue;
+      taken.add(candidate.name);
+      perSubject[candidate.subject] = (perSubject[candidate.subject] || 0) + 1;
+      picks.push(candidate);
     }
 
     if (!picks.length) {
-      toast("Every subject already has two blocks, or nothing is left to suggest.");
+      toast("Nothing left to suggest — every chapter is already planned or mastered.");
       return;
     }
 
-    let remaining = Math.max(0, target - planned);
-    if (remaining < 30) {
-      toast("Today's target is already planned. Add a block manually if you want more.");
+    let remaining = Math.max(0, DAILY_CAP_MINUTES - planned);
+    if (remaining < 45) {
+      toast("Your day is already planned up to 12 hours.");
       return;
     }
 
-    const each = Math.min(60, Math.max(30, Math.round(remaining / picks.length / 15) * 15));
+    const each = Math.min(120, Math.max(45, Math.round(remaining / picks.length / 15) * 15));
     const blocks = [];
-    for (const chapter of picks) {
-      if (remaining < 30) break;
-      const minutes = Math.min(each, Math.max(30, remaining));
+    for (const pick of picks) {
+      if (remaining < 45) break;
+      const minutes = Math.min(each, Math.max(45, remaining));
       blocks.push({
         date,
-        title: `${chapter.name} — deep work`,
-        subject: chapter.subject,
-        chapter_name: chapter.name,
+        title: `${pick.name} — ${pick.board ? "board prep" : "deep work"}`,
+        subject: pick.subject,
+        chapter_name: pick.name,
         target_minutes: minutes,
         status: "Todo",
       });
@@ -117,7 +138,8 @@ function Planner() {
 
     await base44.entities.Task.bulkCreate(blocks);
     await refresh();
-    toast.success(`${blocks.length} blocks added — max two per subject`);
+    const total = blocks.reduce((sum, block) => sum + block.target_minutes, 0);
+    toast.success(`${blocks.length} blocks · ${fmtMinutes(total)} planned, Class 12 first`);
   };
 
   return (

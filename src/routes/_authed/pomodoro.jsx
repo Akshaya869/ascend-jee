@@ -11,6 +11,7 @@ import { fmtMinutes, subjectMeta, toISO } from "@/lib/plan";
 import TimerDial from "@/components/pomodoro/TimerDial";
 import TimerSettings from "@/components/pomodoro/TimerSettings";
 import SessionSetup from "@/components/pomodoro/SessionSetup";
+import AmbientSound from "@/components/pomodoro/AmbientSound";
 
 export const Route = createFileRoute("/_authed/pomodoro")({
   component: FocusPage,
@@ -274,6 +275,8 @@ function FocusPage() {
               </ul>
             )}
           </section>
+
+          <AmbientSound />
 
           <TimerSettings profile={profile} onSave={saveProfile} />
         </aside>

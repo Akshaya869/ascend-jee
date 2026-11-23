@@ -6,7 +6,8 @@ import {
   BookOpen,
   ClipboardCheck,
   TrendingUp,
-  Compass,
+  Sparkles,
+  Zap,
   GraduationCap,
   Settings,
   LogOut,
@@ -21,7 +22,8 @@ const NAV = [
   { to: "/boards", label: "Boards", icon: GraduationCap },
   { to: "/tests", label: "Tests", icon: ClipboardCheck },
   { to: "/forecast", label: "Forecast", icon: TrendingUp },
-  { to: "/guidance", label: "Guidance", icon: Compass },
+  { to: "/advanced", label: "Advanced", icon: Zap },
+  { to: "/assistant", label: "Assistant", icon: Sparkles },
   { to: "/settings", label: "Settings", icon: Settings },
 ];
 
