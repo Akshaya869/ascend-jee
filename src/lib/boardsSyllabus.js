@@ -1,0 +1,126 @@
+const P = "Physics";
+const C = "Chemistry";
+const M = "Mathematics";
+
+export const DEFAULT_BOARDS = [
+  { subject: P, unit: "Electrostatics", name: "Electric Charges and Fields", weightage: "High" },
+  { subject: P, unit: "Electrostatics", name: "Electrostatic Potential and Capacitance", weightage: "High" },
+  { subject: P, unit: "Current Electricity", name: "Current Electricity", weightage: "High" },
+  { subject: P, unit: "Magnetic Effects of Current and Magnetism", name: "Moving Charges and Magnetism", weightage: "High" },
+  { subject: P, unit: "Magnetic Effects of Current and Magnetism", name: "Magnetism and Matter", weightage: "Medium" },
+  { subject: P, unit: "EMI and Alternating Currents", name: "Electromagnetic Induction", weightage: "High" },
+  { subject: P, unit: "EMI and Alternating Currents", name: "Alternating Current", weightage: "High" },
+  { subject: P, unit: "Electromagnetic Waves", name: "Electromagnetic Waves", weightage: "Low" },
+  { subject: P, unit: "Optics", name: "Ray Optics and Optical Instruments", weightage: "High" },
+  { subject: P, unit: "Optics", name: "Wave Optics", weightage: "Medium" },
+  { subject: P, unit: "Dual Nature of Radiation and Matter", name: "Dual Nature of Radiation and Matter", weightage: "Medium" },
+  { subject: P, unit: "Atoms and Nuclei", name: "Atoms", weightage: "Medium" },
+  { subject: P, unit: "Atoms and Nuclei", name: "Nuclei", weightage: "Medium" },
+  { subject: P, unit: "Semiconductor Electronics", name: "Semiconductor Electronics: Materials, Devices and Simple Circuits", weightage: "High" },
+
+  { subject: C, unit: "Physical Chemistry", name: "Solutions", weightage: "High" },
+  { subject: C, unit: "Physical Chemistry", name: "Electrochemistry", weightage: "High" },
+  { subject: C, unit: "Physical Chemistry", name: "Chemical Kinetics", weightage: "High" },
+  { subject: C, unit: "Inorganic Chemistry", name: "The d- and f-Block Elements", weightage: "High" },
+  { subject: C, unit: "Inorganic Chemistry", name: "Coordination Compounds", weightage: "High" },
+  { subject: C, unit: "Organic Chemistry", name: "Haloalkanes and Haloarenes", weightage: "High" },
+  { subject: C, unit: "Organic Chemistry", name: "Alcohols, Phenols and Ethers", weightage: "High" },
+  { subject: C, unit: "Organic Chemistry", name: "Aldehydes, Ketones and Carboxylic Acids", weightage: "High" },
+  { subject: C, unit: "Organic Chemistry", name: "Amines", weightage: "Medium" },
+  { subject: C, unit: "Biomolecules", name: "Biomolecules", weightage: "Medium" },
+  { subject: C, unit: "Practicals", name: "Salt analysis and titration record", weightage: "Medium" },
+
+  { subject: M, unit: "Algebra", name: "Relations and Functions", weightage: "Medium" },
+  { subject: M, unit: "Algebra", name: "Inverse Trigonometric Functions", weightage: "Medium" },
+  { subject: M, unit: "Algebra", name: "Matrices", weightage: "High" },
+  { subject: M, unit: "Algebra", name: "Determinants", weightage: "High" },
+  { subject: M, unit: "Calculus", name: "Continuity and Differentiability", weightage: "High" },
+  { subject: M, unit: "Calculus", name: "Application of Derivatives", weightage: "High" },
+  { subject: M, unit: "Calculus", name: "Integrals", weightage: "High" },
+  { subject: M, unit: "Calculus", name: "Application of Integrals", weightage: "Medium" },
+  { subject: M, unit: "Calculus", name: "Differential Equations", weightage: "High" },
+  { subject: M, unit: "Vectors and 3D Geometry", name: "Vector Algebra", weightage: "High" },
+  { subject: M, unit: "Vectors and 3D Geometry", name: "Three Dimensional Geometry", weightage: "High" },
+  { subject: M, unit: "Linear Programming", name: "Linear Programming", weightage: "Low" },
+  { subject: M, unit: "Probability", name: "Probability", weightage: "High" },
+
+  { subject: "English", unit: "Flamingo — Prose", name: "The Last Lesson", weightage: "High" },
+  { subject: "English", unit: "Flamingo — Prose", name: "Lost Spring", weightage: "High" },
+  { subject: "English", unit: "Flamingo — Prose", name: "Deep Water", weightage: "Medium" },
+  { subject: "English", unit: "Flamingo — Prose", name: "The Rattrap", weightage: "Medium" },
+  { subject: "English", unit: "Flamingo — Prose", name: "Indigo", weightage: "Medium" },
+  { subject: "English", unit: "Flamingo — Prose", name: "Poets and Pancakes", weightage: "Medium" },
+  { subject: "English", unit: "Flamingo — Prose", name: "The Interview", weightage: "Low" },
+  { subject: "English", unit: "Flamingo — Prose", name: "Going Places", weightage: "Medium" },
+  { subject: "English", unit: "Flamingo — Poetry", name: "My Mother at Sixty-six", weightage: "High" },
+  { subject: "English", unit: "Flamingo — Poetry", name: "Keeping Quiet", weightage: "High" },
+  { subject: "English", unit: "Flamingo — Poetry", name: "A Thing of Beauty", weightage: "Medium" },
+  { subject: "English", unit: "Flamingo — Poetry", name: "A Roadside Stand", weightage: "Medium" },
+  { subject: "English", unit: "Flamingo — Poetry", name: "Aunt Jennifer's Tigers", weightage: "Medium" },
+  { subject: "English", unit: "Vistas — Supplementary", name: "The Third Level", weightage: "Medium" },
+  { subject: "English", unit: "Vistas — Supplementary", name: "The Tiger King", weightage: "High" },
+  { subject: "English", unit: "Vistas — Supplementary", name: "Journey to the End of the Earth", weightage: "Medium" },
+  { subject: "English", unit: "Vistas — Supplementary", name: "The Enemy", weightage: "High" },
+  { subject: "English", unit: "Vistas — Supplementary", name: "On the Face of It", weightage: "Medium" },
+  { subject: "English", unit: "Vistas — Supplementary", name: "Memories of Childhood", weightage: "Medium" },
+  { subject: "English", unit: "Writing Skills", name: "Notice and poster writing", weightage: "High" },
+  { subject: "English", unit: "Writing Skills", name: "Formal and informal letters", weightage: "High" },
+  { subject: "English", unit: "Writing Skills", name: "Article and report writing", weightage: "High" },
+  { subject: "English", unit: "Writing Skills", name: "Speech and debate", weightage: "Medium" },
+  { subject: "English", unit: "Reading & Grammar", name: "Unseen passage comprehension", weightage: "High" },
+  { subject: "English", unit: "Reading & Grammar", name: "Gap filling, editing and reordering", weightage: "Medium" },
+
+  { subject: "Computer Science", unit: "Python & Data Structures", name: "Python revision: functions and modules", weightage: "High" },
+  { subject: "Computer Science", unit: "Python & Data Structures", name: "Lists, tuples and dictionaries", weightage: "High" },
+  { subject: "Computer Science", unit: "Python & Data Structures", name: "Text file handling", weightage: "High" },
+  { subject: "Computer Science", unit: "Python & Data Structures", name: "Binary files and CSV files", weightage: "Medium" },
+  { subject: "Computer Science", unit: "Python & Data Structures", name: "Stacks using lists", weightage: "High" },
+  { subject: "Computer Science", unit: "Python & Data Structures", name: "Queues using lists", weightage: "High" },
+  { subject: "Computer Science", unit: "Python & Data Structures", name: "Searching: linear and binary", weightage: "Medium" },
+  { subject: "Computer Science", unit: "Python & Data Structures", name: "Sorting: bubble and insertion", weightage: "Medium" },
+  { subject: "Computer Science", unit: "Computer Networks", name: "Network types and topologies", weightage: "Medium" },
+  { subject: "Computer Science", unit: "Computer Networks", name: "Network devices and protocols", weightage: "High" },
+  { subject: "Computer Science", unit: "Computer Networks", name: "Web services: WWW, HTML, HTTP, XML", weightage: "Medium" },
+  { subject: "Computer Science", unit: "Database Management", name: "Database concepts and relational model", weightage: "High" },
+  { subject: "Computer Science", unit: "Database Management", name: "SQL: DDL, DML and constraints", weightage: "High" },
+  { subject: "Computer Science", unit: "Database Management", name: "SQL: aggregate functions, GROUP BY, joins", weightage: "High" },
+  { subject: "Computer Science", unit: "Database Management", name: "Interface Python with MySQL", weightage: "High" },
+  { subject: "Computer Science", unit: "Society, Law & Ethics", name: "Digital footprint and cyber safety", weightage: "Medium" },
+  { subject: "Computer Science", unit: "Society, Law & Ethics", name: "Cybercrime, IT Act and intellectual property", weightage: "Medium" },
+  { subject: "Computer Science", unit: "Practicals", name: "Practical file and project work", weightage: "Medium" },
+];
+
+export const BOARD_SUBJECTS = [
+  { key: "Physics", short: "PHY", hex: "#38bdf8", text: "text-sky-300", dot: "bg-sky-400" },
+  { key: "Chemistry", short: "CHE", hex: "#a78bfa", text: "text-violet-300", dot: "bg-violet-400" },
+  { key: "Mathematics", short: "MAT", hex: "#fbbf24", text: "text-amber-300", dot: "bg-amber-400" },
+  { key: "English", short: "ENG", hex: "#34d399", text: "text-emerald-300", dot: "bg-emerald-400" },
+  { key: "Computer Science", short: "CS", hex: "#fb7185", text: "text-rose-300", dot: "bg-rose-400" },
+];
+
+export function boardSubjectMeta(name) {
+  return BOARD_SUBJECTS.find((s) => s.key === name) || BOARD_SUBJECTS[0];
+}
+
+export const BOARD_RESOURCES = [
+  {
+    label: "CBSE Academic",
+    detail: "Syllabus, sample papers, marking schemes",
+    href: "https://cbseacademic.nic.in/",
+  },
+  {
+    label: "NCERT Class 12 textbooks",
+    detail: "Official PDFs for PCM",
+    href: "https://ncert.nic.in/textbook.php",
+  },
+  {
+    label: "CBSE board site",
+    detail: "Exam dates, admit card, notifications",
+    href: "https://cbse.gov.in/",
+  },
+  {
+    label: "JEE Main (NTA)",
+    detail: "Session dates, admit card, results",
+    href: "https://jeemain.nta.nic.in/",
+  },
+];

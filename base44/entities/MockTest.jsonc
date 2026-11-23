@@ -1,0 +1,107 @@
+{
+  "name": "MockTest",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "test_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "test_type": {
+      "type": "string",
+      "enum": [
+        "Full Mains",
+        "Full Advanced",
+        "Part Test",
+        "Chapter Test",
+        "Other"
+      ],
+      "enumColors": [
+        "blue",
+        "purple",
+        "yellow",
+        "green",
+        "gray"
+      ],
+      "default": "Full Mains"
+    },
+    "physics_marks": {
+      "type": "number",
+      "default": 0
+    },
+    "physics_max": {
+      "type": "number",
+      "default": 100
+    },
+    "chemistry_marks": {
+      "type": "number",
+      "default": 0
+    },
+    "chemistry_max": {
+      "type": "number",
+      "default": 100
+    },
+    "maths_marks": {
+      "type": "number",
+      "default": 0
+    },
+    "maths_max": {
+      "type": "number",
+      "default": 100
+    },
+    "duration_minutes": {
+      "type": "number",
+      "default": 180
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "test_date"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

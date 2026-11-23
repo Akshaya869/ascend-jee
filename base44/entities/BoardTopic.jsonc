@@ -1,0 +1,124 @@
+{
+  "name": "BoardTopic",
+  "type": "object",
+  "properties": {
+    "subject": {
+      "type": "string",
+      "enum": [
+        "Physics",
+        "Chemistry",
+        "Mathematics",
+        "English",
+        "Computer Science"
+      ],
+      "enumColors": [
+        "blue",
+        "purple",
+        "pink",
+        "green",
+        "yellow"
+      ]
+    },
+    "unit": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "weightage": {
+      "type": "string",
+      "enum": [
+        "High",
+        "Medium",
+        "Low"
+      ],
+      "enumColors": [
+        "red",
+        "yellow",
+        "gray"
+      ],
+      "default": "Medium"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Not Started",
+        "Learning",
+        "Practiced",
+        "Mastered"
+      ],
+      "enumColors": [
+        "gray",
+        "blue",
+        "yellow",
+        "green"
+      ],
+      "default": "Not Started"
+    },
+    "confidence": {
+      "type": "number",
+      "default": 0
+    },
+    "revision_count": {
+      "type": "number",
+      "default": 0
+    },
+    "last_studied": {
+      "type": "string",
+      "format": "date"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "order_index": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "subject",
+    "unit",
+    "name"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

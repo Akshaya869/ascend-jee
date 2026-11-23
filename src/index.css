@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222 32% 5%;
+    --foreground: 40 25% 96%;
+    --card: 222 26% 8%;
+    --card-foreground: 40 25% 96%;
+    --popover: 222 26% 8%;
+    --popover-foreground: 40 25% 96%;
+    --primary: 158 62% 50%;
+    --primary-foreground: 222 40% 6%;
+    --secondary: 222 20% 13%;
+    --secondary-foreground: 40 25% 96%;
+    --muted: 222 20% 12%;
+    --muted-foreground: 220 12% 62%;
+    --accent: 36 92% 58%;
+    --accent-foreground: 222 40% 6%;
+    --destructive: 0 72% 52%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 222 18% 15%;
+    --input: 222 18% 17%;
+    --ring: 158 62% 50%;
+    --chart-1: 158 62% 50%;
+    --chart-2: 36 92% 58%;
+    --chart-3: 199 89% 60%;
+    --chart-4: 265 80% 72%;
+    --chart-5: 340 75% 62%;
+    --radius: 0.85rem;
+    --font-heading: "Sora", ui-sans-serif, system-ui, sans-serif;
+    --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+    --font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+    --sidebar-background: 222 30% 6%;
+    --sidebar-foreground: 40 25% 96%;
+    --sidebar-primary: 158 62% 50%;
+    --sidebar-primary-foreground: 222 40% 6%;
+    --sidebar-accent: 222 20% 13%;
+    --sidebar-accent-foreground: 40 25% 96%;
+    --sidebar-border: 222 18% 15%;
+    --sidebar-ring: 158 62% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background font-body text-foreground antialiased;
+    background-image: radial-gradient(
+        900px 620px at 10% -12%,
+        hsl(158 62% 50% / 0.12),
+        transparent 62%
+      ),
+      radial-gradient(760px 520px at 96% -6%, hsl(36 92% 58% / 0.07), transparent 58%);
+    background-attachment: fixed;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-heading tracking-tight;
+  }
+
+  ::selection {
+    background: hsl(158 62% 50% / 0.28);
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.8);
+    opacity: 0.6;
+  }
+}
+
+@layer components {
+  .surface {
+    @apply rounded-2xl border border-white/[0.06] bg-white/[0.025];
+  }
+
+  .surface-hover {
+    @apply transition hover:border-white/10 hover:bg-white/[0.045];
+  }
+
+  .eyebrow {
+    @apply text-[10px] font-medium uppercase tracking-[0.22em] text-muted-foreground;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

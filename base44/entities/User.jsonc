@@ -1,0 +1,42 @@
+{
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "role": {
+      "type": "string",
+      "enum": [
+        "admin",
+        "user"
+      ],
+      "enumColors": [
+        "purple",
+        "gray"
+      ],
+      "default": "user"
+    },
+    "exam_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "daily_target_minutes": {
+      "type": "number",
+      "default": 300
+    },
+    "pomodoro_focus": {
+      "type": "number",
+      "default": 25
+    },
+    "pomodoro_short": {
+      "type": "number",
+      "default": 5
+    },
+    "pomodoro_long": {
+      "type": "number",
+      "default": 15
+    },
+    "long_break_interval": {
+      "type": "number",
+      "default": 4
+    }
+  }
+}
